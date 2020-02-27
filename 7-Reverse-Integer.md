@@ -111,3 +111,33 @@ class Solution:
         return y
 ```
 不失为一种方法，但是我觉得这么做就没什么意义了 
+
+
+## 后记
+```python
+class Solution:
+    def reverse(self, x: int) -> int:
+        res = 0
+        if not (-2147483648 <= x and x <= 2147483648):
+            return 0
+        elif x > 0:
+            flag = 1
+        else:
+            flag = 0
+            x = -x
+
+        # 去掉末尾的0
+        while x:
+            if x % 10:
+                break
+            x = x // 10
+
+        while x:
+            res = res * 10
+            res += x % 10
+            x = x // 10
+
+        return res if flag else -res
+```
+上面的这个代码也是错的。
+不死心的我最后提交了这个代码才发现错在了哪里。是因为 反转之后的数字超过了2的32次方
