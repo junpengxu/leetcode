@@ -1,34 +1,28 @@
 class Solution:
-    def romanToInt(self, s: str) -> int:
-        auxiliary_dict = {
-            'M': 1000,
-            'CM': 900,
-            'D': 500,
-            'CD': 400,
-            'C': 100,
-            'XC': 90,
-            'L': 50,
-            'XL': 40,
-            'X': 10,
-            'IX': 9,
-            'V': 5,
-            'IV': 4,
-            'I': 1
-        }
+    def longestCommonPrefix(self, strs):
 
-        auxiliary_list = list(auxiliary_dict.keys())
+        if not strs:
+            return ''
 
-        res = 0
-        while True:
-            for item in auxiliary_list:
-                if s.startswith(item):
-                    res += auxiliary_dict[item]
-                    s = s[len(item):]
-                    break
-                if not s:
-                    return res
+        # 找到最短的。 最长前缀一定小于最短的
+        min_len_str = strs[0]
+        for item in strs[1:]:
+            if len(min_len_str) >= len(item):
+                min_len_str = item
 
+        for i in range(0, len(min_len_str)+1):
+            new_strs = [item[:i] for item in strs]
+            if len(set(new_strs)) != 1:
+                return min_len_str[:i - 1]
+        return min_len_str
 
-assert Solution().romanToInt('MMMCMXCIX') == 3999
-assert Solution().romanToInt('MCMXCIV') == 1994
-assert Solution().romanToInt('I') == 1
+assert Solution().longestCommonPrefix(["aa", "ab"]) == 'a'
+
+assert Solution().longestCommonPrefix(["flower", "flow", "flight"]) == 'fl'
+assert Solution().longestCommonPrefix(["dog", "racecar", "car"]) == ''
+assert Solution().longestCommonPrefix(["a", "b"]) == ''
+assert Solution().longestCommonPrefix(["aa", "ab"]) == 'a'
+assert Solution().longestCommonPrefix(["a", "a"]) == 'a'
+assert Solution().longestCommonPrefix([]) == ''
+assert Solution().longestCommonPrefix([""]) == ''
+assert Solution().longestCommonPrefix(["a"]) == 'a'
