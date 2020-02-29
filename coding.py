@@ -1,28 +1,39 @@
 class Solution:
-    def longestCommonPrefix(self, strs):
+    def threeSum(self, nums):
+        nums.sort()
+        ans = set()
+        n = len(nums)
+        for i in range(1, n):
+            if nums[i] == nums[i - 1]:  # 相同的情况就不用管了，因为题目是要求去重复
+                continue
+            index = n - 1
+            for j in range(i + 1, n):
+                a, b, c = nums[i], nums[j], -(nums[i] + nums[j])
+                if c < b:  # 这种的c是不符合题意的
+                    break
+                while nums[index] > c and index > j +1 :  # 相同的情况就不用管了，因为题目是要求去重复
+                    index -= 1
+                if nums[index] == c and index > j:
+                    ans.add((a, b, c))
+        return ans
 
-        if not strs:
-            return ''
 
-        # 找到最短的。 最长前缀一定小于最短的
-        min_len_str = strs[0]
-        for item in strs[1:]:
-            if len(min_len_str) >= len(item):
-                min_len_str = item
-
-        for i in range(0, len(min_len_str)+1):
-            new_strs = [item[:i] for item in strs]
-            if len(set(new_strs)) != 1:
-                return min_len_str[:i - 1]
-        return min_len_str
-
-assert Solution().longestCommonPrefix(["aa", "ab"]) == 'a'
-
-assert Solution().longestCommonPrefix(["flower", "flow", "flight"]) == 'fl'
-assert Solution().longestCommonPrefix(["dog", "racecar", "car"]) == ''
-assert Solution().longestCommonPrefix(["a", "b"]) == ''
-assert Solution().longestCommonPrefix(["aa", "ab"]) == 'a'
-assert Solution().longestCommonPrefix(["a", "a"]) == 'a'
-assert Solution().longestCommonPrefix([]) == ''
-assert Solution().longestCommonPrefix([""]) == ''
-assert Solution().longestCommonPrefix(["a"]) == 'a'
+class Solution:
+    def threeSum(self, nums):
+        nums.sort()
+        ans = set()
+        n = len(nums)
+        for i in range(n):
+            if i > 0 and nums[i] == nums[i - 1]:
+                continue
+            index = n - 1
+            for j in range(i + 1, n):
+                a, b = nums[i], nums[j]
+                c = 0 - a - b
+                if c < b:
+                    break
+                while nums[index] > c and index > j + 1:
+                    index = index - 1
+                if nums[index] == c and index > j:
+                    ans.add((a, b, c))
+        return list(ans)
