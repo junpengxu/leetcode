@@ -1,46 +1,30 @@
+import itertools
+from typing import List
+
+
+# class Solution:
+#     def letterCombinations(self, digits: str) -> List[str]:
+#         phone = {2: 'abc', 3: 'def', 4: 'ghi', 5: 'jkl', 6: 'mno', 7: 'pqrs', 8: 'tuv', 9: 'wxyz'}
+#         return [''.join(_) for _ in itertools.product(*(phone.get(int(_)) for _ in digits))] if digits else []
+
+
 class Solution:
-    def threeSumClosest(self, nums: List[int], target: int) -> int:
-        nums.sort()
-        length = len(nums)
-        closest = []
+    def letterCombinations(self, digits: str) -> List[str]:
+        phone = {2: 'abc', 3: 'def', 4: 'ghi', 5: 'jkl', 6: 'mno', 7: 'pqrs', 8: 'tuv', 9: 'wxyz'}
+        if len(digits)==0:
+            return []
+        res = ['']
 
-        for i, num in enumerate(nums[0:-2]):
-            l, r = i + 1, length - 1
+        def dfs(nums, res):
+            result = []
+            if not nums:
+                return res
+            num = nums[0]
+            for i in list(phone[int(num)]):
+                for j in res:
+                    result.append(j+i)
+            return dfs(nums[1:], result)
 
-            # different with others' solution
-
-            if num + nums[r] + nums[r - 1] < target:
-                closest.append(num + nums[r] + nums[r - 1])
-            elif num + nums[l] + nums[l + 1] > target:
-                closest.append(num + nums[l] + nums[l + 1])
-            else:
-                while l < r:
-                    sum = num + nums[l] + nums[r]
-                    closest.append(sum)
-                    if sum < target:
-                        l += 1
-                    elif sum > target:
-                        r -= 1
-                    else:
-                        return target
-
-        closest.sort(key=lambda x: abs(x - target))
-        return closest[0]
-        '''
-        N = len(nums)
-        nums.sort()
-        res = float('inf') # sum of 3 number
-        for t in range(N):
-            i, j = t + 1, N - 1
-            while i < j:
-                _sum = nums[t] + nums[i] + nums[j]
-                if abs(_sum - target) < abs(res - target):
-                    res = _sum
-                if _sum > target:
-                    j -= 1
-                elif _sum < target:
-                    i += 1
-                else:
-                    return target
-        return res
-        '''
+        a =  dfs(digits, res)
+        return a
+print(Solution().letterCombinations('23'))
