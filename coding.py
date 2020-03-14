@@ -1,39 +1,46 @@
 class Solution:
-    def threeSum(self, nums):
+    def threeSumClosest(self, nums: List[int], target: int) -> int:
         nums.sort()
-        ans = set()
-        n = len(nums)
-        for i in range(1, n):
-            if nums[i] == nums[i - 1]:  # 相同的情况就不用管了，因为题目是要求去重复
-                continue
-            index = n - 1
-            for j in range(i + 1, n):
-                a, b, c = nums[i], nums[j], -(nums[i] + nums[j])
-                if c < b:  # 这种的c是不符合题意的
-                    break
-                while nums[index] > c and index > j +1 :  # 相同的情况就不用管了，因为题目是要求去重复
-                    index -= 1
-                if nums[index] == c and index > j:
-                    ans.add((a, b, c))
-        return ans
+        length = len(nums)
+        closest = []
 
+        for i, num in enumerate(nums[0:-2]):
+            l, r = i + 1, length - 1
 
-class Solution:
-    def threeSum(self, nums):
+            # different with others' solution
+
+            if num + nums[r] + nums[r - 1] < target:
+                closest.append(num + nums[r] + nums[r - 1])
+            elif num + nums[l] + nums[l + 1] > target:
+                closest.append(num + nums[l] + nums[l + 1])
+            else:
+                while l < r:
+                    sum = num + nums[l] + nums[r]
+                    closest.append(sum)
+                    if sum < target:
+                        l += 1
+                    elif sum > target:
+                        r -= 1
+                    else:
+                        return target
+
+        closest.sort(key=lambda x: abs(x - target))
+        return closest[0]
+        '''
+        N = len(nums)
         nums.sort()
-        ans = set()
-        n = len(nums)
-        for i in range(n):
-            if i > 0 and nums[i] == nums[i - 1]:
-                continue
-            index = n - 1
-            for j in range(i + 1, n):
-                a, b = nums[i], nums[j]
-                c = 0 - a - b
-                if c < b:
-                    break
-                while nums[index] > c and index > j + 1:
-                    index = index - 1
-                if nums[index] == c and index > j:
-                    ans.add((a, b, c))
-        return list(ans)
+        res = float('inf') # sum of 3 number
+        for t in range(N):
+            i, j = t + 1, N - 1
+            while i < j:
+                _sum = nums[t] + nums[i] + nums[j]
+                if abs(_sum - target) < abs(res - target):
+                    res = _sum
+                if _sum > target:
+                    j -= 1
+                elif _sum < target:
+                    i += 1
+                else:
+                    return target
+        return res
+        '''
