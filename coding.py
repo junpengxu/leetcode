@@ -1,19 +1,17 @@
 class Solution:
-    def generateParenthesis(self, n):
-        res = []
-        self.dfs(res, n, n, '')
-        return res
-
-    def dfs(self, res, left, right, path):
-        if left == 0 and right == 0:
-            res.append(path)
-            return res
-        if left > 0:
-            self.dfs(res, left - 1, right, path + '(')
-        # 左括号比右括号少的情况下才增右括号
-        if right > 0:
-            self.dfs(res, left, right - 1, path + ')')
-
-
-if __name__ == '__main__':
-    Solution().generateParenthesis(3)
+    def mergeTwoLists(self, l1: ListNode, l2: ListNode) -> ListNode:
+        l3 = ListNode()
+        cur = l3
+        while l1 and l2:
+            if l1.val < l2.val:
+                cur.next = ListNode(l1.val)
+                l1 = l1.next
+            else:
+                cur.next = ListNode(l2.val)
+                l2 = l2.next
+            cur = cur.next
+        if l1:
+            cur.next = l1
+        if l2:
+            cur.next = l2
+        return l3.next
