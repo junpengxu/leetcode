@@ -1,30 +1,17 @@
-class ListNode:
-    def __init__(self, val=0, next=None):
-        self.val = val
-        self.next = next
-
-
 class Solution:
-    def swapPairs(self, head: ListNode) -> ListNode:
-        if not head: return head
-        cur = head
-        while cur.next:
-            p = cur
-            q = cur.next
-            p.val, q.val = q.val, p.val
-            cur = cur.next.next if cur.next.next else cur.next
-        return head
+    def removeDuplicates(self, nums):
+        flag = 0  # 不重复元素应该在的坐标
+        for i in range(1, len(nums)):
+            if nums[i] == nums[flag]:
+                continue
+            flag += 1
+            if nums[i] != nums[flag]:
+                nums[flag] = nums[i]
+        return nums[:flag + 1]
 
 
 if __name__ == '__main__':
-    a1 = ListNode(1)
-    a2 = ListNode(2)
-    a3 = ListNode(3)
-    a4 = ListNode(4)
-    head = a1
-    head.next = a2
-    a2.next = a3
-    a3.next = a4
     A = Solution()
-    aa = A.swapPairs(head)
-    aa = A.swapPairs(head)
+    nums = [0, 0, 1, 1, 1, 2, 2, 3, 3, 4]
+    aa = A.removeDuplicates(nums)
+    print(aa)
