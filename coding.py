@@ -1,17 +1,17 @@
 class Solution:
-    def removeDuplicates(self, nums):
-        flag = 0  # 不重复元素应该在的坐标
-        for i in range(1, len(nums)):
-            if nums[i] == nums[flag]:
-                continue
-            flag += 1
-            if nums[i] != nums[flag]:
+    def removeElement(self, nums, val):
+        flag = 0
+        for i in range(0, len(nums)):
+            if nums[i] != val:
                 nums[flag] = nums[i]
+                flag += 1
         return nums[:flag + 1]
 
 
 if __name__ == '__main__':
     A = Solution()
-    nums = [0, 0, 1, 1, 1, 2, 2, 3, 3, 4]
-    aa = A.removeDuplicates(nums)
+    nums = [0, 0, 1, 1, 1, 2, 0, 2, 3, 3, 4]
+    aa = A.removeElement(nums, 0)
     print(aa)
+
+
