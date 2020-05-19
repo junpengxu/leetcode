@@ -1,12 +1,13 @@
 class Solution:
     def maxProfit(self, prices):
-        if not prices:
-            return 0
-        profile = 0
-        buy = prices[0]
-        for i in range(len(prices)):
-            if buy > prices[i]:
-                buy = prices[i]
-            if prices[i] - buy > profile:
-                profile = prices[i] - buy
-        return profile
+        total = 0
+        for i in range(1, len(prices)):
+            profit = prices[i] - prices[i - 1]
+            if profit > 0:
+                total += profit
+        return total
+
+
+if __name__ == '__main__':
+    A = Solution()
+    A.maxProfit([7, 1, 5, 3, 6, 4])
