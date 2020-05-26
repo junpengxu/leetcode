@@ -1,15 +1,25 @@
+import better_exceptions
+
+
 class Solution:
-    def lengthOfLastWord(self, s: str) -> int:
-        if not s:
-            return 0
-        else:
-            new_s = s.rstrip().split()
-            if not new_s:
-                return 0
-            return len(new_s[-1])
+    def combinationSum(self, candidates, target):
+        res = []
+
+        def dfs(candidates, index, cnt_list):
+            if sum(cnt_list) > target:
+                return
+            elif sum(cnt_list) < target:
+                for i in range(index, len(candidates)):
+                    dfs(candidates, i, cnt_list + [candidates[i]])
+            else:
+                res.append(cnt_list)
+
+        dfs(candidates, 0, [])
+        return res
+
 
 if __name__ == '__main__':
     A = Solution()
-    print(A.lengthOfLastWord('     '))
-    print(A.lengthOfLastWord(' a  a  '))
-    print(A.lengthOfLastWord(' a    '))
+    print(A.combinationSum([2, 3, 5], 8))
+    print(A.combinationSum([], 8))
+    print(A.combinationSum([2,3,6,7], 7))
