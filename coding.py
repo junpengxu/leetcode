@@ -1,23 +1,25 @@
-import better_exceptions
-
-
 class Solution:
-    def combinationSum2(self, candidates, target):
-        candidates.sort()
-        res = []
-
-        def dfs(candidates, index, cnt_list):
-            if sum(cnt_list) > target:
-                return
-            elif sum(cnt_list) < target:
-                for i in range(index+1, len(candidates)):
-                    dfs(candidates, i, cnt_list + [candidates[i]])
+    def plusOne(self, digits):
+        flag = 1
+        for index in range(len(digits) - 1, -1, -1):
+            if digits[index] + flag == 10:
+                digits[index] = 0
+                flag = 1
+                if index == 0:
+                    digits.insert(0, 1)
+                    return digits
+            elif flag == 1:
+                digits[index] += flag
+                flag = 0
             else:
-                if cnt_list not in res:
-                    res.append(cnt_list)
-        dfs(candidates, -1, [])
-        return res
+                return digits
+        return digits
+
 
 if __name__ == '__main__':
     A = Solution()
-    print(A.combinationSum2([10,1,2,7,6,1,5], 8))
+    print(A.plusOne([1,2,3]))
+    print(A.plusOne([1]))
+    print(A.plusOne([9, 9, 9]))
+    print(A.plusOne([9, 9, 0]))
+    print(A.plusOne([1, 9, 9]))
