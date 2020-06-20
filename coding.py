@@ -1,8 +1,16 @@
 class Solution:
-    def generateMatrix(self, n: int):
-        pass
+    def canJump(self, nums):
+        dp = [False for _ in nums]
+        dp[0] = True
+        for i in range(len(nums)):
+            if dp[i]:
+                end = i + nums[i] + 1
+                for j in range(i + 1, end):
+                    if j >= len(nums): return True
+                    dp[j] = True
+        return dp[-1]
 
 
 if __name__ == '__main__':
     A = Solution()
-    nums = [1, 5, 5, 5, 2, 0, 2, 0, 2, 3, 1, 1, 4]
+    print(A.canJump())
