@@ -1,16 +1,16 @@
 class Solution:
-    def canJump(self, nums):
-        dp = [False for _ in nums]
-        dp[0] = True
-        for i in range(len(nums)):
-            if dp[i]:
-                end = i + nums[i] + 1
-                for j in range(i + 1, end):
-                    if j >= len(nums): return True
-                    dp[j] = True
-        return dp[-1]
+    def merge(self, intervals):
+        new_list = []
+        new_list.append(intervals[0][0])
+        for item in intervals:
+            for i in item:
+                if i > new_list[-1]:
+                    new_list.append(i)
+
+        for i in range(0, len(new_list), 2):
+            pass
 
 
 if __name__ == '__main__':
     A = Solution()
-    print(A.canJump())
+    A.merge([[1, 3], [2, 6], [8, 10], [15, 18]])
