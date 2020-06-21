@@ -1,26 +1,17 @@
-from typing import List
-
-class Solution:
-    def merge(self, nums1: List[int], m: int, nums2: List[int], n: int) -> None:
-        """
-        Do not return anything, modify nums1 in-place instead.
-        """
-        cnt = 0
-        for i in range(m, len(nums1)):
-            nums1[i] = nums2[cnt]
-            cnt += 1
-            if cnt == n:
+class Solution():
+    def mySqrt(self, x):
+        if x == 0:
+            return 0
+        x0, C = float(x), float(x)
+        while True:
+            x = 0.5 * (x0 + C / x0)
+            if abs(x0 - x) < 1e-7:
                 break
-
-        quickSort = lambda array: array if len(array) <= 1 else quickSort(
-            [item for item in array[1:] if item <= array[0]]) + [array[0]] + quickSort(
-            [item for item in array[1:] if item > array[0]])
-        new_list = quickSort(nums1[:m + n])
-        for item in range(m + n):
-            nums1[item] = new_list[item]
-        return nums1
+            x0 = x
+        return int(x)
 
 
 if __name__ == '__main__':
     A = Solution()
-    print(A.merge([1, 2, 3, 0, 0, 0, 0, 0], 3, [2, 5, 6], 3))
+    print(A.mySqrt(8))
+    print(A.mySqrt(4))
