@@ -1,17 +1,16 @@
-class Solution():
-    def mySqrt(self, x):
-        if x == 0:
-            return 0
-        x0, C = float(x), float(x)
-        while True:
-            x = 0.5 * (x0 + C / x0)
-            if abs(x0 - x) < 1e-7:
-                break
-            x0 = x
-        return int(x)
+from typing import List
+
+
+class Solution:
+    def minCostClimbingStairs(self, cost: List[int]) -> int:
+        f1 = f2 = 0
+        for x in reversed(cost):
+            f1, f2 = x + min(f1, f2), f1
+        return min(f1, f2)
 
 
 if __name__ == '__main__':
     A = Solution()
-    print(A.mySqrt(8))
-    print(A.mySqrt(4))
+    # print(A.minCostClimbingStairs([1, 100, 1, 1, 1, 100, 1, 1, 100, 1]))
+    # print(A.minCostClimbingStairs([0, 0, 0, 1]))
+    print(A.minCostClimbingStairs([10, 15, 20, 20, 1, 18, 20]))
