@@ -1,38 +1,35 @@
 class Solution:
-    def setZeroes(self, matrix):
-        """
-        Do not return anything, modify matrix in-place instead.
-        """
-        if not matrix:
-            return []
+    def searchMatrix(self, matrix, target):
+        if not matrix: return False
 
-        m = len(matrix)
-        n = len(matrix[0])
-        zero_position_set = set()
+        def binary_search(nums, target):
+            l, r = 0, len(nums) - 1
+            while l <= r:
+                mid = (l + r) // 2
+                if nums[mid] == target:
+                    return mid
+                elif nums[mid] > target:
+                    r = mid - 1
+                else:
+                    l = mid + 1
+            return False
 
-        def add_zero_position(x, y):
-            # 返回所有需要被设置为0的坐标位置
-            for i in range(m):
-                zero_position_set.add((i, y))
-            for i in range(n):
-                zero_position_set.add((x, i))
-
-        for i in range(m):
-            for j in range(n):
-                if matrix[i][j] == 0:
-                    add_zero_position(i, j)
-        for i, j in zero_position_set:
-            matrix[i][j] = 0
-
-        return matrix
+        # find row
+        first_col = [matrix[j][0] for j in range(len(matrix))]
+        end_col = [matrix[j][-1] for j in range(len(matrix))]
+        index = zip(first_col, end_col)
+        for _index, (x, y) in enumerate(index):
+            if x <= target and target <= y:
+                break
+        nums = [matrix[_index][i] for i in range(len(matrix[0]))]
+        position = binary_search(nums, target)
+        if position is False:
+            return False
+        return True
 
 
 if __name__ == '__main__':
     A = Solution()
-    # nums = [[0, 1, 2, 0], [3, 4, 5, 2], [1, 3, 1, 5]]
-    nums = [
-  [1,1,1],
-  [1,0,1],
-  [1,1,1]
-]
-    print(A.setZeroes(nums))
+    # print(A.searchMatrix([[1, 3, 5, 7], [10, 11, 16, 20], [23, 30, 34, 50]], 13))
+    # print(A.searchMatrix([[1]], 1))
+    print(A.searchMatrix([[-10,-8,-6,-4,-3],[0,2,3,4,5],[8,9,10,10,12]], 0))
