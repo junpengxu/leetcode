@@ -1,35 +1,17 @@
-# Definition for singly-linked list.
-class ListNode:
-    def __init__(self, val=0, next=None):
-        self.val = val
-        self.next = next
+class Solution:
+    def uniquePaths(self, m: int, n: int) -> int:
+        result = [[0 for _ in range(m)] for _ in range(n)]
+        for i in range(n):
+            for j in range(m):
+                if i == n - 1 or j == m - 1:
+                    result[i][j] = 1
+
+        for i in range(n - 2, -1, -1):
+            for j in range(m - 2, -1, -1):
+                result[i][j] = result[i][j+1]+result[i+1][j]
+        return result[0][0]
 
 
-class Solution(object):
-    def rotateRight(self, head, k):
-        """
-        :type head: ListNode
-        :type k: int
-        :rtype: ListNode
-        """
-        if not head or not head.next: return head
-
-        cur = head
-        count = 1   # 链表长度
-
-        # 1. 成环
-        while cur.next:
-            cur = cur.next
-            count += 1
-        cur.next = head
-
-        # 2. 找到新的头前一个（这个就是新的尾巴）
-
-        k = k % count # 断开的位置
-        new_head = head
-
-        for i in range(count - k - 1):
-            new_head = new_head.next
-        head = new_head.next
-        new_head.next = None
-        return head
+if __name__ == '__main__':
+    A = Solution()
+    print(A.uniquePaths(7, 3))
