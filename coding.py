@@ -4,37 +4,30 @@ class ListNode:
         self.val = val
         self.next = next
 
-#
-# class Solution:
-#     def deleteDuplicates(self, head: ListNode) -> ListNode:
-#         if head == None:
-#             return head
-#
-#         if head.next:
-#             if head.val == head.next.val:
-#                 next = head.next.next
-#                 head.next.next = None   # 摘掉重复的节点
-#                 head.next = next
-#                 self.deleteDuplicates(head)
-#                 return head
-#
-#         self.deleteDuplicates(head.next)
-#         return head
 
 class Solution:
     def deleteDuplicates(self, head: ListNode) -> ListNode:
-        if head == None:
-            return head
-        new_head = head
-        while head.next:
-            if head.val == head.next.val:
-                next = head.next.next
-                head.next.next = None
-                head.next = next
+        curr = head
+        while curr and curr.next:
+            if curr.val == curr.next.val:
+                curr.next = curr.next.next
             else:
-                head = head.next
-        return new_head
+                curr = curr.next
+        return head
 
+
+# class Solution:
+#     def deleteDuplicates(self, head: ListNode) -> ListNode:
+#         curr = head
+#
+#         while curr and curr.next:
+#
+#             if curr.val == curr.next.val:
+#                 curr.next = curr.next.next
+#             else:
+#                 curr = curr.next
+#
+#         return head
 
 if __name__ == '__main__':
     a = ListNode(0)
