@@ -1,43 +1,40 @@
 # Definition for singly-linked list.
 class ListNode:
-    def __init__(self, x):
-        self.val = x
-        self.next = None
+    def __init__(self, val=0, next=None):
+        self.val = val
+        self.next = next
 
 
 class Solution:
-    def partition(self, head: ListNode, x: int) -> ListNode:
-        gte_link = ListNode(-1)
-        gte = gte_link
-        lt_link = ListNode(-1)
-        lt = lt_link
-        while head:
-            new_node = ListNode(head.val)
-            if head.val < x:
-                lt_link.next = new_node
-                lt_link = lt_link.next
-            else:
-                gte_link.next = new_node
-                gte_link = gte_link.next
-            head = head.next
-        curr = lt
-        while curr and curr.next:
-            curr = curr.next
-        curr.next = gte.next
-        return lt
+    def reverseBetween(self, head: ListNode, m: int, n: int) -> ListNode:
+        if m == 1:
+            self.successor = None
+            return self.recurse(head, n)
+        head.next = self.reverseBetween(head.next, m - 1, n - 1)
+        return head
+
+    def recurse(self, head, n):
+        if n == 1:
+            return head
+        last = self.recurse(head.next, n - 1)
+        successor = head.next.next  # 后继节点，被反转之前的链表的头节点的下一个节点
+        head.next.next = head
+        head.next = successor       # successor 在被不断的更新，更新为新的头节点的后继节点, 实际上都是同一个
+        return last
 
 
 if __name__ == '__main__':
     a = ListNode(1)
-    b = ListNode(4)
+    b = ListNode(2)
     c = ListNode(3)
-    d = ListNode(2)
+    d = ListNode(4)
     e = ListNode(5)
-    f = ListNode(2)
+    f = ListNode(6)
     a.next = b
     b.next = c
     c.next = d
     d.next = e
     e.next = f
     A = Solution()
-    A.partition(a,3)
+    A.reverseBetween(a, 2, 5)
+    aa = 1
