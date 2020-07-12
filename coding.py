@@ -5,23 +5,39 @@ class ListNode:
         self.next = next
 
 
+# Definition for a binary tree node.
+class TreeNode:
+    def __init__(self, val=0, left=None, right=None):
+        self.val = val
+        self.left = left
+        self.right = right
+
+
 class Solution:
-    def reverseBetween(self, head: ListNode, m: int, n: int) -> ListNode:
-        if m == 1:
-            self.successor = None
-            return self.recurse(head, n)
-        head.next = self.reverseBetween(head.next, m - 1, n - 1)
-        return head
+    def sortedListToBST(self, head: ListNode) -> TreeNode:
+        if not head:
+            return None
+        mid = self.findmid(head)
+        node = TreeNode(mid.val)
 
-    def recurse(self, head, n):
-        if n == 1:
-            return head
-        last = self.recurse(head.next, n - 1)
-        successor = head.next.next  # 后继节点，被反转之前的链表的头节点的下一个节点
-        head.next.next = head
-        head.next = successor       # successor 在被不断的更新，更新为新的头节点的后继节点, 实际上都是同一个
-        return last
+        if mid == head:
+            return node
 
+        node.left = self.sortedListToBST(head)
+        node.right = self.sortedListToBST(mid.next)
+        return node
+
+    def findmid(self, head):
+        tail = None
+        slowptr = head
+        fastptr = head
+        while fastptr and fastptr.next:
+            tail = slowptr
+            slowptr = slowptr.next
+            fastptr = fastptr.next.next
+        if tail:
+            tail.next = None
+        return slowptr
 
 if __name__ == '__main__':
     a = ListNode(1)
@@ -35,6 +51,5 @@ if __name__ == '__main__':
     c.next = d
     d.next = e
     e.next = f
-    A = Solution()
-    A.reverseBetween(a, 2, 5)
-    aa = 1
+    A= Solution()
+    A.sortedListToBST(a)
