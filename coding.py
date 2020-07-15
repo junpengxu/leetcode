@@ -1,43 +1,26 @@
 # Definition for singly-linked list.
 class ListNode:
-    def __init__(self, val=0, next=None):
-        self.val = val
-        self.next = next
-
-
-# Definition for a binary tree node.
-class TreeNode:
-    def __init__(self, val=0, left=None, right=None):
-        self.val = val
-        self.left = left
-        self.right = right
+    def __init__(self, x):
+        self.val = x
+        self.next = None
 
 
 class Solution:
-    def sortedListToBST(self, head: ListNode) -> TreeNode:
+    def detectCycle(self, head: ListNode) -> ListNode:
         if not head:
             return None
-        mid = self.findmid(head)
-        node = TreeNode(mid.val)
+        node_record = []
+        index = 0
+        new_head = head
 
-        if mid == head:
-            return node
+        while new_head not in node_record and new_head.next:
+            node_record.append(new_head)
+            new_head = new_head.next
+            index += 1
+        if not new_head.next:
+            return None
+        return new_head
 
-        node.left = self.sortedListToBST(head)
-        node.right = self.sortedListToBST(mid.next)
-        return node
-
-    def findmid(self, head):
-        tail = None
-        slowptr = head
-        fastptr = head
-        while fastptr and fastptr.next:
-            tail = slowptr
-            slowptr = slowptr.next
-            fastptr = fastptr.next.next
-        if tail:
-            tail.next = None
-        return slowptr
 
 if __name__ == '__main__':
     a = ListNode(1)
@@ -50,6 +33,6 @@ if __name__ == '__main__':
     b.next = c
     c.next = d
     d.next = e
-    e.next = f
-    A= Solution()
-    A.sortedListToBST(a)
+    e.next = a
+    A = Solution()
+    print(A.detectCycle(a))
