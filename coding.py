@@ -6,34 +6,32 @@ class ListNode:
 
 
 class Solution:
+    def removeElements(self, head: ListNode, val: int) -> ListNode:
+        if not head:
+            return None
+        tmp = head
+        while head and head.next:
+            if head.next.val == val:
+                head.next = head.next.next
+            else:
+                head = head.next
+        if tmp.val == val:
+            return tmp.next
+        return tmp
 
-    def reorderList(self, head: ListNode) -> None:
-        """
-        Do not return anything, modify head in-place instead.
-        """
-
-        def recurse(head):
-            if not head.next:
-                return head
-            tmp = recurse(head.next)
-            head.next.next = head
-            head.next = None
-            return tmp
-        head = recurse(head)
-        return head
 
 if __name__ == '__main__':
-    a = ListNode(1)
-    b = ListNode(2)
-    c = ListNode(3)
-    d = ListNode(4)
-    e = ListNode(5)
-    f = ListNode(6)
+    a = ListNode(2)
+    b = ListNode(1)
+    c = ListNode(1)
+    d = ListNode(1)
+    e = ListNode(1)
+    f = ListNode(1)
     a.next = b
     b.next = c
     c.next = d
     d.next = e
     e.next = f
     A = Solution()
-    cc = A.reorderList(a)
+    cc = A.removeElements(a, 1)
     bbb = 1
