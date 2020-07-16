@@ -1,26 +1,26 @@
 # Definition for singly-linked list.
 class ListNode:
-    def __init__(self, x):
-        self.val = x
-        self.next = None
+    def __init__(self, val=0, next=None):
+        self.val = val
+        self.next = next
 
 
 class Solution:
-    def detectCycle(self, head: ListNode) -> ListNode:
-        if not head:
-            return None
-        node_record = []
-        index = 0
-        new_head = head
 
-        while new_head not in node_record and new_head.next:
-            node_record.append(new_head)
-            new_head = new_head.next
-            index += 1
-        if not new_head.next:
-            return None
-        return new_head
+    def reorderList(self, head: ListNode) -> None:
+        """
+        Do not return anything, modify head in-place instead.
+        """
 
+        def recurse(head):
+            if not head.next:
+                return head
+            tmp = recurse(head.next)
+            head.next.next = head
+            head.next = None
+            return tmp
+        head = recurse(head)
+        return head
 
 if __name__ == '__main__':
     a = ListNode(1)
@@ -33,6 +33,7 @@ if __name__ == '__main__':
     b.next = c
     c.next = d
     d.next = e
-    e.next = a
+    e.next = f
     A = Solution()
-    print(A.detectCycle(a))
+    cc = A.reorderList(a)
+    bbb = 1
