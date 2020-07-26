@@ -1,21 +1,19 @@
 class Solution:
-    def numDecodings(self, s: str) -> int:
-        one = {'1': 1, '2': 1, '3': 1, '4': 1, '5': 1, '6': 1, '7': 1, '8': 1, '9': 1, '*': 9}
-
-        two = {'10': 1, '11': 1, '12': 1, '13': 1, '14': 1, '15': 1, '16': 1, '17': 1, '18': 1, '19': 1, '20': 1,
-               '21': 1,
-               '22': 1, '23': 1, '24': 1, '25': 1, '26': 1, '*0': 2, '*1': 2, '*2': 2, '*3': 2, '*4': 2, '*5': 2,
-               '*6': 2,
-               '*7': 1, '*8': 1, '*9': 1, '1*': 9, '2*': 6, '**': 15}
-
-        dp = 1, one.get(s[:1], 0)
-
-        for i in range(1, len(s)):
-            dp = dp[1], (one.get(s[i], 0) * dp[1] + two.get(s[i - 1: i + 1], 0) * dp[0]) % 1000000007
-            print(dp)
-        return dp[-1]
+    def minDistance(self, word1, word2):
+        dp = [[0 for _ in range(len(word2) + 1)] for _ in range(len(word1) + 1)]
+        for i in range(len(word2) + 1):
+            dp[0][i] = i
+        for j in range(len(word1) + 1):
+            dp[j][0] = j
+        for i in range(1, len(word1) + 1):
+            for j in range(1, len(word2) + 1):
+                if word1[i - 1] == word2[j - 1]:
+                    dp[i][j] = dp[i - 1][j - 1]
+                else:
+                    dp[i][j] = min(dp[i - 1][j], dp[i][j - 1], dp[i - 1][j - 1]) + 1
+        return dp[-1][-1]
 
 
 if __name__ == '__main__':
     A = Solution()
-    print(A.numDecodings("1234**12"))
+    print(A.minDistance("ros", "horse"))
