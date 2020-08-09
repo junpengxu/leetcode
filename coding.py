@@ -1,19 +1,24 @@
+from typing import List
+
+
 class Solution:
-    def minDistance(self, word1, word2):
-        dp = [[0 for _ in range(len(word2) + 1)] for _ in range(len(word1) + 1)]
-        for i in range(len(word2) + 1):
-            dp[0][i] = i
-        for j in range(len(word1) + 1):
-            dp[j][0] = j
-        for i in range(1, len(word1) + 1):
-            for j in range(1, len(word2) + 1):
-                if word1[i - 1] == word2[j - 1]:
-                    dp[i][j] = dp[i - 1][j - 1]
-                else:
-                    dp[i][j] = min(dp[i - 1][j], dp[i][j - 1], dp[i - 1][j - 1]) + 1
-        return dp[-1][-1]
+    def largestRectangleArea(self, heights: List[int]) -> int:
+        size = len(heights) + 2
+        stack = [0]
+        heights = [0] + heights + [0]
+        max_area = 0
+        for i in range(1, size):
+            while heights[i] < heights[stack[-1]]:
+                height = heights[stack.pop()]  # 从栈中pop出来的是递减的， 刚好符合使用短边计算乘长度
+                width = i - stack[-1] - 1  # why
+                max_area = max(max_area, width * height)
+            stack.append(i)
+        return max_area
 
 
 if __name__ == '__main__':
-    A = Solution()
-    print(A.minDistance("ros", "horse"))
+    heights = [2, 1, 5, 6, 2, 3]
+
+    solution = Solution()
+    res = solution.largestRectangleArea(heights)
+    print(res)
