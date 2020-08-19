@@ -1,24 +1,39 @@
 from typing import List
 
 
+class TreeNode:
+    def __init__(self, val=0, left=None, right=None):
+        self.val = val
+        self.left = left
+        self.right = right
+
+
 class Solution:
-    def largestRectangleArea(self, heights: List[int]) -> int:
-        size = len(heights) + 2
-        stack = [0]
-        heights = [0] + heights + [0]
-        max_area = 0
-        for i in range(1, size):
-            while heights[i] < heights[stack[-1]]:
-                height = heights[stack.pop()]  # 从栈中pop出来的是递减的， 刚好符合使用短边计算乘长度
-                width = i - stack[-1] - 1  # why
-                max_area = max(max_area, width * height)
-            stack.append(i)
-        return max_area
+    def generateTrees(self, n: int) -> List[TreeNode]:
+        def generateTrees(start, end):
+            if start > end:
+                return [None, ]
+
+            allTrees = []
+            for i in range(start, end + 1):  # 枚举可行根节点
+                # 获得所有可行的左子树集合
+                leftTrees = generateTrees(start, i - 1)
+
+                # 获得所有可行的右子树集合
+                rightTrees = generateTrees(i + 1, end)
+
+                # 从左子树集合中选出一棵左子树，从右子树集合中选出一棵右子树，拼接到根节点上
+                for l in leftTrees:
+                    for r in rightTrees:
+                        currTree = TreeNode(i)
+                        currTree.left = l
+                        currTree.right = r
+                        allTrees.append(currTree)
+            return allTrees
+
+        return generateTrees(1, n) if n else []
 
 
 if __name__ == '__main__':
-    heights = [2, 1, 5, 6, 2, 3]
-
-    solution = Solution()
-    res = solution.largestRectangleArea(heights)
-    print(res)
+    A = Solution()
+    A.generateTrees(5)
