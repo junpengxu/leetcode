@@ -1,39 +1,18 @@
 from typing import List
 
 
-class TreeNode:
-    def __init__(self, val=0, left=None, right=None):
-        self.val = val
-        self.left = left
-        self.right = right
-
-
 class Solution:
-    def generateTrees(self, n: int) -> List[TreeNode]:
-        def generateTrees(start, end):
-            if start > end:
-                return [None, ]
-
-            allTrees = []
-            for i in range(start, end + 1):  # 枚举可行根节点
-                # 获得所有可行的左子树集合
-                leftTrees = generateTrees(start, i - 1)
-
-                # 获得所有可行的右子树集合
-                rightTrees = generateTrees(i + 1, end)
-
-                # 从左子树集合中选出一棵左子树，从右子树集合中选出一棵右子树，拼接到根节点上
-                for l in leftTrees:
-                    for r in rightTrees:
-                        currTree = TreeNode(i)
-                        currTree.left = l
-                        currTree.right = r
-                        allTrees.append(currTree)
-            return allTrees
-
-        return generateTrees(1, n) if n else []
+    def coinChange(self, coins: List[int], amount: int) -> int:
+        dp = [amount + 1] * (amount + 1)
+        dp[0] = 0
+        for i in range(amount + 1):
+            for coin in coins:
+                if (i - coin < 0):
+                    continue
+                dp[i] = min(dp[i], dp[i - coin] + 1)
+        return dp[amount] if dp[amount] != amount + 1 else -1
 
 
 if __name__ == '__main__':
     A = Solution()
-    A.generateTrees(5)
+    print(A.coinChange([1, 2, 5], 11))
