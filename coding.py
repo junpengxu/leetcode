@@ -1,41 +1,15 @@
 class Solution:
-    def minWindow(self, s: str, t: str) -> str:
-        minLen = float('inf')  # minLen初始尽量大，第一次就能被改写
-        resL = 0
-        targetcount = {}  # 存储目标字符，和对应的缺失个数
-        missingType = 0  # 当前缺失的字符种类数
-        for element in t:  # t为baac的话，targetcount为{'a':2,'b':1,'c':1}
-            if element in targetcount:
-                targetcount[element] += 1
-            else:
-                targetcount[element] = 1
-                missingType += 1  # 需要找齐的种类数 +1
-        left = 0
-        right = 0  # 左右指针
-        while right < len(s):  # right++ 扩张窗口，超出s串就结束循环
-            rightChar = s[right]  # 获取right指向的新字符
-            if rightChar in targetcount:
-                targetcount[rightChar] -= 1  # 是目标字符，它的缺失个数-1
-                if targetcount[rightChar] == 0:
-                    missingType -= 1  # 它的缺失个数变0，缺失的种类就-1
-            while missingType == 0:  # 只要满足当前窗口包含所有字符，就一直收缩窗口
-                if right - left + 1 < minLen:  # 计算长度，和minLen比较
-                    minLen = right - left + 1  # 更新minLen
-                    resL = left  # 更新最小子串起点
-                leftChar = s[left]  # 获取左指针指向的字符
-                if leftChar in targetcount:
-                    targetcount[leftChar] += 1  # 目标字符被舍弃，缺失个数+1
-                    if targetcount[leftChar] > 0:
-                        missingType += 1  # 缺失个数变>0，缺失的种类+1
-                left += 1
-            right += 1
-        if minLen == float('inf'):  # 未找到 返回空
-            return ''
-        else:
-            return s[resL:resL + minLen]  # 根据起点和minLen截取子串
+    def checkInclusion(self, s1: str, s2: str) -> bool:
+        from collections import Counter
+
+        len_s1 = len(s1)
+        len_s2 = len(s2)
+        for i in range(0, len_s2 - len_s1 + 1):
+            if Counter(s2[i:i + len_s1]) == Counter(s1):
+                return True
+        return False
 
 
 if __name__ == '__main__':
     A = Solution()
-    A.minWindow("abcoiaboabef", "abci")
-
+    print(A.checkInclusion("ayb", "eidbaooo"))
