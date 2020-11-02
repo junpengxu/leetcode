@@ -1,21 +1,19 @@
-from typing import List
-
-
 class Solution:
-    def maxArea(self, height: List[int]) -> int:
-        max_area = 0
-        left = 0
-        right = len(height) - 1
-        while left < right:
-            max_area = max(max_area, min(height[left], height[right]) * (right - left))
-            if height[left] < height[right]:
-                left += 1
-            else:
-                right -= 1
-        return max_area
+    def romanToInt(self, s: str) -> int:
+        mapping = {'M': 1000, 'CM': 900, 'D': 500, 'CD': 400, 'C': 100, 'XC': 90, 'L': 50, 'XL': 40, 'X': 10, 'IX': 9,
+                   'V': 5, 'IV': 4, 'I': 1}
 
+        def recurse(s, index, res):
+            if index >= len(s):
+                return res
+            if s[index:index + 2] in mapping:
+                return recurse(s, index + 2, res + mapping[s[index:index + 2]])
+            else:
+                return recurse(s, index + 1, res + mapping[s[index:index + 1]])
+
+        return recurse(s, 0, 0)
 
 
 if __name__ == '__main__':
     A = Solution()
-    A.maxArea([1, 8, 6, 2, 5, 4, 8, 3, 7])
+    print(A.romanToInt("III"))
