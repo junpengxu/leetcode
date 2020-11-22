@@ -1,29 +1,27 @@
-from typing import List
+# Definition for a binary tree node.
+class TreeNode:
+    def __init__(self, val=0, left=None, right=None):
+        self.val = val
+        self.left = left
+        self.right = right
 
 
 class Solution:
-    def longestCommonPrefix(self, strs: List[str]) -> str:
-        if not strs: return ""
-        max_prefix = strs[0]
-        for str in strs:
-            if not max_prefix:
-                return ""
-            else:
-                max_prefix = self.get_max_prefix(max_prefix, str)
-        return max_prefix
-
-    @staticmethod
-    def get_max_prefix(str_1, str_2):
+    def inorderTraversal(self, root):
+        stack = []
         res = []
-        for s_1, s_2 in zip(str_1, str_2):
-            if s_1 == s_2:
-                res.append(s_1)
+        tmp = root
+        while stack or tmp:
+            if tmp:
+                stack.append(tmp)
+                tmp = tmp.left
             else:
-                break
-        return "".join(res)
+                tmp = stack.pop()
+                res.append(tmp.val)
+                tmp = tmp.right
+        return res
 
 
 if __name__ == '__main__':
     A = Solution()
-    print(A.longestCommonPrefix(["abc", "aba"]))
-    print(A.longestCommonPrefix(["cir", "car"]))
+    A.inorderTraversal()
